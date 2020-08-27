@@ -7,4 +7,4 @@ Go To GitWiki Pages
 
 [Requirement](https://github.com/KongtappV/ku-polls/wiki/Requirement)
 
-[Vision](https://github.com/KongtappV/ku-polls/wiki/Vision%20Statement)
+[Vision Statement](https://github.com/KongtappV/ku-polls/wiki/Vision%20Statement)
