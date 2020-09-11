@@ -1,5 +1,5 @@
 # ku-polls
-The polls or surveys provide input for making decisions, planning events, and learning others’ preferences and ideas, but they aren’t critical (like voting for a representative).
+The polls or surveys provide input for making decisions, planning events, and learning others’ preferences and ideas.
 
 Go To GitWiki Pages
 
@@ -8,3 +8,5 @@ Go To GitWiki Pages
 [Requirement](https://github.com/KongtappV/ku-polls/wiki/Requirement)
 
 [Vision Statement](https://github.com/KongtappV/ku-polls/wiki/Vision%20Statement)
+
+* [Iteration 1 Plan Page](https://github.com/KongtappV/ku-polls/wiki/Iteration-1-Plan)
