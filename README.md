@@ -10,3 +10,4 @@ Go To GitWiki Pages
 [Vision Statement](https://github.com/KongtappV/ku-polls/wiki/Vision%20Statement)
 
 * [Iteration 1 Plan Page](https://github.com/KongtappV/ku-polls/wiki/Iteration-1-Plan)
+* [Iteration 2 Plan Page](https://github.com/KongtappV/ku-polls/wiki/Iteration-2-Plan)
