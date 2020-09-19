@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
+from django.contrib import messages
+
 from .models import Choice, Question
 
 class IndexView(generic.ListView):
@@ -63,13 +65,14 @@ def vote(request, question_id):
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the question voting form.
+        messages.error(request, "You didn't make a choice")
         return render(request, 'polls/detail.html', {
             'question': question,
-            'error_message': "You didn't select a choice.",
         })
     else:
         selected_choice.votes += 1
         selected_choice.save()
+        messages.success(request, "Your choice successfully recorded. Thank you.")
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
