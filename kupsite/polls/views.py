@@ -15,12 +15,12 @@ class IndexView(generic.ListView):
     
     def get_queryset(self):
         """
-        Return the last five published questions (not including those set to be
+        Return the all published questions (not including those set to be
         published in the future).
         """
         return Question.objects.filter(
             pub_date__lte=timezone.now()
-        ).order_by('-pub_date')[:5] 
+        ).order_by('-pub_date')[:1000] 
 
 class DetailView(generic.DetailView):
     model = Question
@@ -44,13 +44,15 @@ class ResultsView(generic.DetailView):
         return Question.objects.filter(pub_date__lte=timezone.now())
 
 def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[1000:]
+    latest_question_list = Question.objects.order_by('-pub_date')[:1000]
     context = {'latest_question_list': latest_question_list}
     return render(request, 'polls/index.html', context)
 
 def detail(request, question_id):
     try:
         question = Question.objects.get(pk=question_id)
+        if (not question.can_vote()):
+            messages.error(request, "Can not vote current question")
     except Question.DoesNotExist:
         raise Http404("Question does not exist")
     return render(request, 'polls/detail.html', {'question': question})

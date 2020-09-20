@@ -16,7 +16,12 @@
     <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
     <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
 {% endfor %}
-<input type="submit" value="Vote">
+
+{% if question.can_vote %}
+    <input type="submit" value="Vote">
+{% else %}
+    <b> Can not vote current question </b>
+{% endif %}
 </form>
 
 <a href="{% url 'polls:index' %}"><button>Back to index</button></a>
