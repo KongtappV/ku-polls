@@ -84,7 +84,7 @@ class QuestionModelTests(TestCase):
         """
         future_question = create_question(question_text='Future Question.', days=30, ends_days=60)
         self.assertIs(future_question.was_published_recently(), False)
-    
+
     def test_was_published_recently_with_old_question(self):
         """
         was_published_recently() returns False for questions whose pub_date
@@ -109,7 +109,7 @@ class QuestionModelTests(TestCase):
         """
         is_published() returns True for questions whose pub_date is older than now
         """
-        new_question = create_question(question_text='Future Question.', days = 0, ends_days=30)
+        new_question = create_question(question_text='Future Question.', days=0, ends_days=30)
         old_question = create_question(question_text='Old Question.', days=-1, ends_days=30)
         self.assertIs(new_question.is_published(), True)
         self.assertIs(old_question.is_published(), True)
@@ -120,10 +120,10 @@ class QuestionModelTests(TestCase):
         """
         future_question = create_question(question_text='Future Question.', days=1, ends_days=30)
         self.assertIs(future_question.is_published(), False)
-    
+
     def test_can_vote_not_published(self):
         """
-        can_vote() returns False can not vote the question if the question 
+        can_vote() returns False can not vote the question if the question
         is not yet published
         """
         future_question = create_question(question_text='Future Question.', days=1, ends_days=30)
@@ -138,13 +138,13 @@ class QuestionModelTests(TestCase):
 
     def test_can_vote_(self):
         """
-        can_vote() returns True when the question is already published 
+        can_vote() returns True when the question is already published
         and not expired
         """
         recent_question = create_question(question_text='Recent Question.', days=-1, ends_days=30)
         self.assertIs(recent_question.can_vote(), True)
-        
-    
+
+
 class QuestionDetailViewTests(TestCase):
     def test_future_question(self):
         """
