@@ -10,11 +10,6 @@ git:
 # Install any dependencies
 install:
   - pip install -r requirements.txt
-  - pip install coverage
-  - pip install Django
-  - pip install django-environ
-  - pip install pylint-django
-  - pip install python-decouple
     
 # script to run tests. Script can have many commands, one per line.
 script: 
