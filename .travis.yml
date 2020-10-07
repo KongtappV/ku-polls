@@ -19,7 +19,7 @@ install:
 # script to run tests. Script can have many commands, one per line.
 script: 
   - python kupsite/manage.py test polls
-  - coverage run kupsite/manage.py test
+  - coverage run manage.py test
 
 after_script:
   - bash <(curl -s https://codecov.io/bash)
