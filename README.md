@@ -1,6 +1,7 @@
 # ku-polls
 
 [![Build Status](https://travis-ci.com/KongtappV/ku-polls.svg?branch=master)](https://travis-ci.com/KongtappV/ku-polls)
+[![codecov](https://codecov.io/gh/KongtappV/ku-polls/branch/master/graph/badge.svg)](https://codecov.io/gh/KongtappV/ku-polls)
 
 The polls or surveys provide input for making decisions, planning events, and learning others’ preferences and ideas.
 
