@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 from .models import Choice, Question
@@ -79,3 +81,23 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+    def login(request):
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return render(request, 'polls/index.html')
+            else:
+                messages.warning(request, 'Username or Password is incorrect!')
+        return render(request, 'polls/login.html', context)
+
+    def signup(request):
+        if request.method == 'POST':
+            form = UserCreationForm(request.POST)
+            if form.is_valid:
+                form.save()
+                return render(request, 'polls/login.html')
+        return render(request, 'polls/signup.html')
