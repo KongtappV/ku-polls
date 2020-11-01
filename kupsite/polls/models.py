@@ -1,7 +1,9 @@
 import datetime
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+
 
 # Create your models here.
 class Question(models.Model):
@@ -82,3 +84,15 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.choice_text
+
+class Vote(models.Model):
+    """
+    A class to represent each vote for choice.
+
+    Attributes
+    ----------
+    
+    """
+    choice = models.ForeignKey(Choice, null=True, on_delete=models.SET_NULL)
+    question = models.ForeignKey(Question, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)

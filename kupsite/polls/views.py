@@ -1,15 +1,19 @@
 # from django.template import loader
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .models import Choice, Question
+from .models import Choice, Question, Vote
+
+import logging
+
+log = logging.getLogger("polls")
+logging.basicConfig(level=logging.INFO)
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -23,6 +27,7 @@ class IndexView(generic.ListView):
         return Question.objects.filter(
             pub_date__lte=timezone.now()
         ).order_by('-pub_date')[:1000]
+
 
 class DetailView(generic.DetailView):
     model = Question
@@ -51,6 +56,10 @@ def index(request):
     return render(request, 'polls/index.html', context)
 
 def detail(request, question_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "You must login before you can vote")
+        return redirect('polls:index')
+
     try:
         question = Question.objects.get(pk=question_id)
         if (not question.can_vote()):
@@ -63,10 +72,12 @@ def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'polls/results.html', {'question': question})
 
+@login_required()
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
+    user = request.user
     try:
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+        choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the question voting form.
         messages.error(request, "You didn't make a choice")
@@ -74,30 +85,13 @@ def vote(request, question_id):
             'question': question,
         })
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        messages.success(request, "Your choice successfully recorded. Thank you.")
+        Vote.objects.update_or_create(defaults={'choice': choice}, question=question, user=user)
+        for choice in question.choice_set.all():
+            choice.votes = Vote.objects.filter(question=question).filter(choice=choice).count()
+            choice.save()
+        
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
+        messages.success(request, "Your choice successfully recorded. Thank you.")
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
-
-    def login(request):
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return render(request, 'polls/index.html')
-            else:
-                messages.warning(request, 'Username or Password is incorrect!')
-        return render(request, 'polls/login.html', context)
-
-    def signup(request):
-        if request.method == 'POST':
-            form = UserCreationForm(request.POST)
-            if form.is_valid:
-                form.save()
-                return render(request, 'polls/login.html')
-        return render(request, 'polls/signup.html')
