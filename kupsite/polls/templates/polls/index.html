@@ -1,15 +1,46 @@
-<h1> KU polls - Index </h1>
-
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
 
+{% block content %}
+
+<h1> KU polls - Index </h1>
+
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <p><a href="{% url 'logout' %}">Log Out</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+
+<br>
+
 {% if latest_question_list %}
     <ul>
-    {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
+
+    <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+                <table class="table">
+                    <tr>
+                        <th>Question</th>
+                    </tr>
+
+                    {% for question in latest_question_list %}
+                        <tr>
+                            <td><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></td>
+                            <td><a class='btn btn-sm btn-info' href="{% url 'polls:results' question.id %}">Result</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
     </ul>
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+
+{% endblock %}

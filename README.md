@@ -15,4 +15,4 @@ Go To GitWiki Pages
 
 * [Iteration 1 Plan Page](https://github.com/KongtappV/ku-polls/wiki/Iteration-1-Plan)
 * [Iteration 2 Plan Page](https://github.com/KongtappV/ku-polls/wiki/Iteration-2-Plan)
-* [Iteration 3 Plan Page](https://github.com/KongtappV/ku-polls/wiki/Iteration-2-Plan)
+* [Iteration 3 Plan Page](https://github.com/KongtappV/ku-polls/wiki/Iteration-3-Plan)
